@@ -74,7 +74,20 @@
         return $cadena;
     }
 
-    
+    #FUNCION RENOMBRAR FOTOS#
+
+    function renombrar_fotos($nombre){
+        //Remplazamos el espacio en el nombre de la gfoto por guiones bajos
+        $nombre=str_replace(" ","_", $nombre);
+        $nombre=str_replace("/","_", $nombre);
+        $nombre=str_replace("#","_", $nombre);
+        $nombre=str_replace("-","_", $nombre);
+        $nombre=str_replace("$","_", $nombre);
+        $nombre=str_replace(".","_", $nombre);
+        $nombre=str_replace(",","_", $nombre);
+        $nombre=$nombre."_".rand(0,100);
+        return $nombre;
+    }
     /*$pdo= new PDO("mysql:localhost; dbname=inventario", "root","");
     $pdo->query("INSERT INTO categoria(categoria_nombre,categoria_ubicacion) VALUES ('prueba','texto ubicacion')");*/
 ?>

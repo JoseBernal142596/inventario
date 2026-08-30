@@ -7,23 +7,6 @@
                         "root",
                         ""
                     );
-                   // $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                        /*$sql= "INSERT INTO categoria(categoria_nombre, categoria_ubicacion)
-                            VALUES(:nombre, :ubicacion)
-                        ";
-
-                        $sentencia = $pdo->prepare($sql);
-
-                        $sentencia->execute([
-                            ":nombre" => "prueba",
-                            ":ubicacion" => "texto ubicacion"
-
-                        ]);
-
-                        echo "<div> 
-                            Categoria creada correctamente.
-                        </div>";*/
 
             }catch(PDOException $error){
                 echo "Error de base de datos: " .$error->getMessage();
@@ -90,4 +73,60 @@
     }
     /*$pdo= new PDO("mysql:localhost; dbname=inventario", "root","");
     $pdo->query("INSERT INTO categoria(categoria_nombre,categoria_ubicacion) VALUES ('prueba','texto ubicacion')");*/
+
+
+    #Funcion paginador de tablas
+    function paginador_tablas($pagina, $NPaginas, $url, $botones){
+
+        $tabla='<nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">';
+
+
+        if($pagina<=1){
+            $tabla.='<a href="#" class="pagination-previous is-disabled">Anterior</a>
+                    <ul class="pagination-list"
+            ';
+        }else{
+            $tabla.='<a href="'.$url($pagina-1).'" class="pagination-previous">Anterior</a>';
+            $tabla.='<ul class="pagination-list">   
+                    <li><a href="'.$url.'1" class="pagination-link">1</a></li>
+                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                    ';
+        }
+
+
+       $contadorInteracciones=0;
+
+            for($i=$pagina;$i<=$NPaginas;$i++){
+                if($contadorInteracciones>=$botones){
+                    break;
+                }
+
+                if($pagina==$i){
+                    $tabla.= '<li><a href="'.$url.$i.'" class="pagination-link is-current">'.$i.'/a></li>';
+                }else{
+                    $tabla.= '<li><a href="'.$url.$i.'" class="pagination-link">'.$i.'/a></li>';
+                }
+                $contadorInteracciones++;   
+            }
+
+        
+        
+        
+        if($pagina==$NPaginas){
+            $tabla.='</ul>';
+            $tabla.='<a class="pagination-next is-disabled" disabled>Siguiente</a>';
+        }else{
+            $tabla.='
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+                <li><a href="'.$url.$NPaginas.'">'.$NPaginas.'class="pagination-link">1</a></li>
+            </ul>
+            <a href="'.$url($pagina+1).'" class="pagination-next">Siguiente</a>
+            ';
+            $tabla.='</ul>';
+        }   
+
+        $tabla.='</nav>';
+        return $tabla;
+
+    }
 ?>
